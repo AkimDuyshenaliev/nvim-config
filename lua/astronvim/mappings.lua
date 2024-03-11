@@ -166,7 +166,17 @@ end
 
 -- NeoTree
 if is_available "neo-tree.nvim" then
-  maps.n["<leader>e"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" }
+  -- maps.n["<leader>e"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" }
+  maps.n["<leader>e"] = {
+    function()
+      require('neo-tree.command').execute({
+          toggle = true,
+          source = 'filesystem',
+          position = 'right',
+      })
+    end,
+    desc = "Toggle Explorer",
+  }
   maps.n["<leader>o"] = {
     function()
       if vim.bo.filetype == "neo-tree" then
