@@ -187,11 +187,13 @@ if is_available "neovim-session-manager" then
   maps.n["<leader>Ss"] = { "<cmd>SessionManager! save_current_session<cr>", desc = "Save this session" }
   maps.n["<leader>Sd"] = { "<cmd>SessionManager! delete_session<cr>", desc = "Delete session" }
   maps.n["<leader>Sf"] = { "<cmd>SessionManager! load_session<cr>", desc = "Search sessions" }
+  maps.n["<leader>Sv"] = { "<cmd>source $MYVIMRC<cr>", desc = "Source vim rc" }
   maps.n["<leader>S."] =
     { "<cmd>SessionManager! load_current_dir_session<cr>", desc = "Load current directory session" }
 end
 if is_available "resession.nvim" then
   maps.n["<leader>S"] = sections.S
+  maps.n["<leader>Sv"] = { "<cmd>source $MYVIMRC<cr>", desc = "Source vim rc" }
   maps.n["<leader>Sl"] = { function() require("resession").load "Last Session" end, desc = "Load last session" }
   maps.n["<leader>Ss"] = { function() require("resession").save() end, desc = "Save this session" }
   maps.n["<leader>St"] = { function() require("resession").save_tab() end, desc = "Save this tab's session" }
