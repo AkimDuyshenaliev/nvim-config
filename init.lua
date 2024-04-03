@@ -30,6 +30,8 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
 vim.o.termguicolors = true -- Color settings for alacritty+tmux
 
+vim.g.diagnostics_mode = 2 -- Set diagnostics mode
+
 
 -- Setup mason
 require("mason").setup()
