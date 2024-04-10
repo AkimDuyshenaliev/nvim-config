@@ -45,7 +45,7 @@ require ('mason-nvim-dap').setup({
 require('nvim-dap-repl-highlights').setup()
 ---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {"python", "dap_repl"},
+  ensure_installed = {"python", "dap_repl", "java", "cpp", "go", "json", "toml", "yaml", "sql" },
   sync_install = false,
   highlight = {
     enable = true,
