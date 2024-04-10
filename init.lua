@@ -45,20 +45,39 @@ require ('mason-nvim-dap').setup({
 require('nvim-dap-repl-highlights').setup()
 ---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {"python", "dap_repl"},
+  ensure_installed = {"python", "dap_repl", "java", "cpp", "go", "json", "toml", "yaml", "sql" },
   sync_install = false,
   highlight = {
     enable = true,
   },
 }
 
+-- DAP Configurations
+local dap_python = require('dap-python')
+local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
+dap_python.resolve_python = function()
+  return python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil
+end
+dap_python.setup(pythonPath)
+table.insert(require('dap').configurations.python, {
+  type = 'python',
+  request = 'attach',
+  name = 'Python: Attach Example',
+  connect = function()
+    local host = vim.fn.input('Host [127.0.0.1]: ')
+    host = host ~= '' and host or '127.0.0.1'
+    local port = tonumber(vim.fn.input('Port [5678]: ')) or 5678
+    return { host = host, port = port }
+  end;
+})
+
+
 -- Setup neotest
-local venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
 require("neotest").setup({
   adapters = {
     require("neotest-python")({
       runner = "pytest",
-      python = venv_path and ((vim.fn.has('win32') == 1 and venv_path .. '/Scripts/python') or venv_path .. '/bin/python') or nil,
+      python = python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil,
     })
   }
 })
@@ -68,49 +87,4 @@ require("neodev").setup({
     types = true,
   },
 })
-
--- DAP Configurations
-if vim.fn.filereadable(string.format("%s/.vscode/launch.json", vim.fn.getcwd())) == 1 then
-  require('dap.ext.vscode').load_launchjs(nil, { debugpy = {'python'}, cppdbg = {'c', 'cpp'} })
-
-  -- The bellow but only if launch.json has 1 configuration, more than 1 will confuse the DAP
-  local function generate_python_attach_adapter(config)
-    return {
-        type = 'server',
-        id = config.name or 'Python: Default Attach',
-        host = config.connect.host or 'localhost',
-        port = tonumber(config.connect.port) or 5678,
-    }
-  end
-
-  -- local function generate_python_attach_config(config)
-  --   local venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
-  --   return {
-  --     type = config.type;
-  --     request = config.request;
-  --     name = config.name;
-		--   pythonPath = venv_path and ((vim.fn.has('win32') == 1 and venv_path .. '/Scripts/python') or venv_path .. '/bin/python') or nil,
-  --   }
-  -- end
-
-  -- local function starts_with(str, prefix)
-  --   local pattern = "^" .. prefix
-  --   return string.find(str, pattern) ~= nil
-  -- end
-
-  local dap = require("dap")
-  local launchConfig = vim.fn.json_decode(vim.fn.readfile(".vscode/launch.json"))
-
-  for _, config in ipairs(launchConfig.configurations) do
-
-    -- A "good idea" I think, but doesn't exactly work, needs fixing (IT NEEDS UNIQUE TYPE IN THE launch.json CONFIGURATIONS! ! ! ! !)
-    -- if starts_with(config.type, "debugpy") then
-      -- dap.configurations[config.type] = generate_python_attach_config(config)
-      -- dap.run(config)
-
-    if config.type == 'python' and config.request == 'attach' then
-      dap.adapters[config.type] = generate_python_attach_adapter(config)
-    end
-  end
-end
 
