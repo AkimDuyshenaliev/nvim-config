@@ -19,23 +19,28 @@ if astronvim.default_colorscheme then
     )
   end
 end
-
+-- End of default configurations
 
 -- Nvim options configuration
 vim.o.scrolloff = 15
+vim.o.termguicolors = true -- Color settings for alacritty+tmux
+vim.g.diagnostics_mode = 2 -- Set diagnostics mode
 
 -- Enable transparancy
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
-vim.o.termguicolors = true -- Color settings for alacritty+tmux
-
-vim.g.diagnostics_mode = 2 -- Set diagnostics mode
-
 
 -- Setup mason
 require("mason").setup()
 require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, false), true)
+
+-- Setup neo-tree
+require("neo-tree").setup({
+  window = {
+    position = "right",
+  },
+})
 
 -- Setup DAP
 require ('mason-nvim-dap').setup({
