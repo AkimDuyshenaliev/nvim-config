@@ -35,13 +35,6 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 require("mason").setup()
 require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, false), true)
 
--- Setup neo-tree
-require("neo-tree").setup({
-  window = {
-    position = "right",
-  },
-})
-
 -- Setup DAP
 require ('mason-nvim-dap').setup({
   ensure_installed = { "python" },
