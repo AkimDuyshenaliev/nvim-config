@@ -37,7 +37,7 @@ require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, f
 
 -- Setup DAP
 require ('mason-nvim-dap').setup({
-  ensure_installed = { "python" },
+  ensure_installed = { "python", "sh" },
   automatic_installation = true,
 })
 require('nvim-dap-repl-highlights').setup()
