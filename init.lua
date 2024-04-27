@@ -37,13 +37,17 @@ require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, f
 
 -- Setup DAP
 require ('mason-nvim-dap').setup({
-  ensure_installed = { "python", "sh" },
+  ensure_installed = { "python", "sh", "java" },
   automatic_installation = true,
 })
 require('nvim-dap-repl-highlights').setup()
 ---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
-  ensure_installed = {"python", "dap_repl", "java", "cpp", "go", "json", "toml", "yaml", "sql" },
+  ensure_installed = {
+    "python", "dap_repl", "java",
+    "groovy", "cpp", "go", "json",
+    "toml", "yaml", "sql", "bash",
+  },
   sync_install = false,
   highlight = {
     enable = true,
@@ -51,31 +55,17 @@ require('nvim-treesitter.configs').setup {
 }
 
 -- DAP Configurations
-local dap_python = require('dap-python')
 local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
-dap_python.resolve_python = function()
-  return python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil
-end
-dap_python.setup(pythonPath)
-table.insert(require('dap').configurations.python, {
-  type = 'python',
-  request = 'attach',
-  name = 'Python: Attach Example',
-  connect = function()
-    local host = vim.fn.input('Host [127.0.0.1]: ')
-    host = host ~= '' and host or '127.0.0.1'
-    local port = tonumber(vim.fn.input('Port [5678]: ')) or 5678
-    return { host = host, port = port }
-  end;
-})
+local pythonPath = python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil
 
+require('dap-python').setup(pythonPath)
 
 -- Setup neotest
 require("neotest").setup({
   adapters = {
     require("neotest-python")({
       runner = "pytest",
-      python = python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil,
+      python = pythonPath,
     })
   }
 })
