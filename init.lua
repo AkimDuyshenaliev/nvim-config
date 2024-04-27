@@ -30,7 +30,6 @@ vim.g.diagnostics_mode = 2 -- Set diagnostics mode
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
 vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 
-
 -- Setup mason
 require("mason").setup()
 require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, false), true)
@@ -59,6 +58,22 @@ local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
 local pythonPath = python_venv_path and ((vim.fn.has('win32') == 1 and python_venv_path .. '/Scripts/python') or python_venv_path .. '/bin/python') or nil
 
 require('dap-python').setup(pythonPath)
+table.insert(require('dap').configurations.python, {
+  type = 'python',
+  request = 'attach',
+  name = 'Python: Docker Remote Attach',
+  connect = function()
+    local host = vim.fn.input('Host [127.0.0.1]: ')
+    host = host ~= '' and host or '127.0.0.1'
+    local port = tonumber(vim.fn.input('Port [5678]: ')) or 5678
+    return { host = host, port = port }
+  end;
+  pathMappings = {{
+    localRoot = vim.fn.getcwd();
+    remoteRoot = "/base/";
+  }};
+})
+
 
 -- Setup neotest
 require("neotest").setup({
