@@ -17,6 +17,7 @@ local sections = {
   g = { desc = get_icon("Git", 1, true) .. "Git" },
   S = { desc = get_icon("Session", 1, true) .. "Session" },
   t = { desc = get_icon("Terminal", 1, true) .. "Terminal" },
+  T = { desc = get_icon("Test", 1, true) .. "Test" },
 }
 
 -- Normal --
@@ -167,13 +168,13 @@ end
 
 -- NeoTree
 if is_available "neo-tree.nvim" then
-  maps.n["<leader>e"] = { "<cmd>Neotree position=right toggle<cr>", desc = "Toggle Explorer" }
+  maps.n["<leader>e"] = { "<cmd>Neotree toggle<cr>", desc = "Toggle Explorer" }
   maps.n["<leader>o"] = {
     function()
       if vim.bo.filetype == "neo-tree" then
         vim.cmd.wincmd "p"
       else
-        vim.cmd("Neotree focus position=right")
+        vim.cmd("Neotree focus")
       end
     end,
     desc = "Toggle Explorer Focus",
@@ -418,6 +419,15 @@ if is_available "nvim-dap" then
     maps.v["<leader>dE"] = { function() require("dapui").eval() end, desc = "Evaluate Input" }
     maps.n["<leader>du"] = { function() require("dapui").toggle() end, desc = "Toggle Debugger UI" }
     maps.n["<leader>dh"] = { function() require("dap.ui.widgets").hover() end, desc = "Debugger Hover" }
+  end
+
+  if is_available "neotest" then
+    maps.n["<leader>T"] = sections.T
+    maps.n["<leader>Tr"] = { function() require("neotest").run.run() end, desc = "Run nearest test" }
+    maps.n["<leader>TF"] = { function() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Run current file" }
+    maps.n["<leader>Td"] = { function() require("neotest").run.run({strategy = "dap"}) end, desc = "Debug nearest test" }
+    maps.n["<leader>Ta"] = { function() require("neotest").run.attach() end, desc = "Attach to nearest test" }
+    maps.n["<leader>Ts"] = { function() require("neotest").run.stop() end, desc = "Stop nearest test" }
   end
 end
 
