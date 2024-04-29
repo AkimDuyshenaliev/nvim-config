@@ -61,6 +61,9 @@ return {
       },
     },
     {
+      "mfussenegger/nvim-jdtls",
+    },
+    {
       "rcarriga/nvim-dap-ui",
       config = function(plugin, opts)
         -- run default AstroNvim nvim-dap-ui configuration function

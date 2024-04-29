@@ -105,7 +105,7 @@ return {
         end,
       },
       window = {
-        width = 40,
+        width = 50,
         position = "right",
         mappings = {
           ["<space>"] = false, -- disable space until we figure out which-key disabling
@@ -126,6 +126,7 @@ return {
         follow_current_file = { enabled = true },
         hijack_netrw_behavior = "open_current",
         use_libuv_file_watcher = vim.fn.has "win32" ~= 1,
+        group_empty_dirs = true,
       },
       event_handlers = {
         {
