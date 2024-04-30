@@ -55,6 +55,15 @@ return {
       end,
     },
     {
+      "mfussenegger/nvim-dap-python",
+      dependencies = {
+        "mfussenegger/nvim-dap",
+      },
+    },
+    {
+      "mfussenegger/nvim-jdtls",
+    },
+    {
       "rcarriga/nvim-dap-ui",
       config = function(plugin, opts)
         -- run default AstroNvim nvim-dap-ui configuration function
