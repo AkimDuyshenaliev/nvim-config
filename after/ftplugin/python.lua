@@ -8,25 +8,26 @@ function getPythonPath()
   return pythonPath
 end
 
-require('dap-python').setup(getPythonPath())
-table.insert(require('dap').configurations.python, {
-  type = 'python',
-  request = 'attach',
-  name = 'Python: Docker Remote Attach',
-  connect = function()
-    local host = vim.fn.input('Host [127.0.0.1]: ')
-    host = host ~= '' and host or '127.0.0.1'
-    local port = tonumber(vim.fn.input('Port [5678]: ')) or 5678
-    return { host = host, port = port }
-  end;
-  pathMappings = function()
-    local localRoot = "${workspaceFolder}"
-    local remoteRoot = vim.fn.input('Remote root [/base/]: ')
-    remoteRoot = remoteRoot ~= '' and remoteRoot or '/base/'
-    return { { localRoot = localRoot, remoteRoot = remoteRoot }, }
-  end
-})
-
+if not require('dap').configurations.python then
+  require('dap-python').setup(getPythonPath())
+  table.insert(require('dap').configurations.python, {
+    type = 'python',
+    request = 'attach',
+    name = 'Python: Docker Remote Attach',
+    connect = function()
+      local host = vim.fn.input('Host [127.0.0.1]: ')
+      host = host ~= '' and host or '127.0.0.1'
+      local port = tonumber(vim.fn.input('Port [5678]: ')) or 5678
+      return { host = host, port = port }
+    end;
+    pathMappings = function()
+      local localRoot = "${workspaceFolder}"
+      local remoteRoot = vim.fn.input('Remote root [/base/]: ')
+      remoteRoot = remoteRoot ~= '' and remoteRoot or '/base/'
+      return { { localRoot = localRoot, remoteRoot = remoteRoot }, }
+    end
+  })
+end
 
 -- Setup neotest
 require("neotest").setup({
