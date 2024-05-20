@@ -49,6 +49,9 @@ maps.n["<leader>pA"] = { "<cmd>AstroUpdate<cr>", desc = "AstroNvim Update" }
 maps.n["<leader>pv"] = { "<cmd>AstroVersion<cr>", desc = "AstroNvim Version" }
 maps.n["<leader>pl"] = { "<cmd>AstroChangelog<cr>", desc = "AstroNvim Changelog" }
 
+-- Dadbod UI (Database management)
+maps.n["<leader>pd"] = { "<cmd>DBUIToggle<cr>", desc = "Toggle DBUI" }
+
 -- Manage Buffers
 maps.n["<leader>c"] = { function() require("astronvim.utils.buffer").close() end, desc = "Close buffer" }
 maps.n["<leader>C"] = { function() require("astronvim.utils.buffer").close(0, true) end, desc = "Force close buffer" }
@@ -475,3 +478,4 @@ maps.n["<leader>uy"] = { ui.toggle_syntax, desc = "Toggle syntax highlighting (b
 maps.n["<leader>uh"] = { ui.toggle_foldcolumn, desc = "Toggle foldcolumn" }
 
 utils.set_mappings(astronvim.user_opts("mappings", maps))
+
