@@ -1,14 +1,15 @@
-function getPythonPath()
-  local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
-  local pythonPath = python_venv_path and
-                      ((vim.fn.has('win32') == 1 and
-                      python_venv_path .. '/Scripts/python') or
-                      python_venv_path .. '/bin/python') or
-                      nil
-  return pythonPath
-end
-
 if not require('dap').configurations.python then
+
+  function getPythonPath()
+    local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
+    local pythonPath = python_venv_path and
+                        ((vim.fn.has('win32') == 1 and
+                        python_venv_path .. '/Scripts/python') or
+                        python_venv_path .. '/bin/python') or
+                        nil
+    return pythonPath
+  end
+
   require('dap-python').setup(getPythonPath())
   table.insert(require('dap').configurations.python, {
     type = 'python',
@@ -27,14 +28,15 @@ if not require('dap').configurations.python then
       return { { localRoot = localRoot, remoteRoot = remoteRoot }, }
     end
   })
-end
 
--- Setup neotest
-require("neotest").setup({
-  adapters = {
-    require("neotest-python")({
-      runner = "pytest",
-      python = getPythonPath(),
-    })
-  }
-})
+  -- Setup neotest
+  require("neotest").setup({
+    adapters = {
+      require("neotest-python")({
+        runner = "pytest",
+        python = getPythonPath(),
+      })
+    }
+  })
+
+end
