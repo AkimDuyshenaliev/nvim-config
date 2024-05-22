@@ -34,11 +34,18 @@ vim.api.nvim_set_hl(0, "NormalFloat", { bg = "none" })
 require("mason").setup()
 require("astronvim.utils").conditional_func(astronvim.user_opts("polish", nil, false), true)
 
--- Setup DAP
-require ('mason-nvim-dap').setup({
-  ensure_installed = { "python", "sh", "java" },
+-- Setup mason LSP
+require('mason-lspconfig').setup({
+  ensure_installed = { "pyright", "ruff_lsp", "lua_ls", "jdtls", "bashls" },
   automatic_installation = true,
 })
+
+-- Setup mason DAP
+require ('mason-nvim-dap').setup({
+  ensure_installed = { "debugpy", "java-test", "java-debug-adapter" },
+  automatic_installation = true,
+})
+
 require('nvim-dap-repl-highlights').setup()
 ---@diagnostic disable-next-line: missing-fields
 require('nvim-treesitter.configs').setup {
@@ -46,6 +53,7 @@ require('nvim-treesitter.configs').setup {
     "python", "dap_repl", "java",
     "groovy", "cpp", "go", "json",
     "toml", "yaml", "sql", "bash",
+    "lua",
   },
   sync_install = false,
   highlight = {
@@ -60,3 +68,6 @@ require("neodev").setup({
   },
 })
 
+-- Setup ftplugins
+require("user.ftplugins.python") -- Setup python DAP
+-- require("user.ftplugins.java") -- Setup java

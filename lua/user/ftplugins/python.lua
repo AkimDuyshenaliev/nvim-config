@@ -1,5 +1,4 @@
 if not require('dap').configurations.python then
-
   function getPythonPath()
     local python_venv_path = os.getenv('VIRTUAL_ENV') or os.getenv('CONDA_PREFIX')
     local pythonPath = python_venv_path and
