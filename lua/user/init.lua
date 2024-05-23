@@ -10,6 +10,7 @@ return {
     "~/.config/nvim/lua/user/plugins/neotest",
     "~/.config/nvim/lua/user/plugins/nvim-dap-repl-highlights",
     "~/.config/nvim/lua/user/plugins/vim-dadbod-ui",
+    "~/.config/nvim/lua/user/plugins/harpoon",
   },
   lsp = {
     formatting = {
