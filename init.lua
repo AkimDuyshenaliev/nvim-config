@@ -68,6 +68,6 @@ require("neodev").setup({
   },
 })
 
--- Setup ftplugins
-require("user.ftplugins.python") -- Setup python DAP
+-- Setups
+require("user.setup.python") -- Setup python
 -- require("user.ftplugins.java") -- Setup java
