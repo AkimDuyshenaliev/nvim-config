@@ -71,3 +71,4 @@ require("neodev").setup({
 -- Setups
 require("user.setup.python") -- Setup python
 -- require("user.ftplugins.java") -- Setup java
+require("user.setup.harpoon") -- Setup harpoon
