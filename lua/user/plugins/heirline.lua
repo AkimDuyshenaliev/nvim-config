@@ -3,6 +3,7 @@ return {
   opts = function(_, opts)
     local status = require "astronvim.utils.status"
 
+    opts.tabline = nil
     opts.winbar = { -- create custom winbar
       -- store the current buffer number
       init = function(self) self.bufnr = vim.api.nvim_get_current_buf() end,
