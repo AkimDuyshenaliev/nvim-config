@@ -17,7 +17,7 @@ return {
         hl = { fg = "fg", bg = "bg" },
         status.component.mode(),
         status.component.git_branch(),
-        status.component.file_info { filetype = {}, filename = false, file_modified = false },
+        status.component.file_info { filetype = false, filename = {}, file_modified = {} },
         status.component.git_diff(),
         status.component.diagnostics(),
         status.component.fill(),
