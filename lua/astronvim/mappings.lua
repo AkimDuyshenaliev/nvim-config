@@ -71,7 +71,7 @@ maps.n["<b"] = {
 }
 
 maps.n["<leader>b"] = sections.b
-maps.n["<leader>bB"] = { "<cmd>Neotree position=right buffers<cr>", desc = "Toggle Buffers" }
+maps.n["<leader>bB"] = { "<cmd>Neotree position=right toggle buffers<cr>", desc = "Toggle Buffers" }
 maps.n["<leader>bc"] =
   { function() require("astronvim.utils.buffer").close_all(true) end, desc = "Close all buffers except current" }
 maps.n["<leader>bC"] = { function() require("astronvim.utils.buffer").close_all() end, desc = "Close all buffers" }
